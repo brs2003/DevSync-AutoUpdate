@@ -1,0 +1,28 @@
+
+name: 'Daily Repository Update (22f3000090@ds.study.iitm.ac.in)'
+
+on:
+  schedule:
+    - cron: '0 2 * * *'  # Daily at 2:00 AM UTC (specific, no wildcards)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Daily log update by 22f3000090@ds.study.iitm.ac.in
+        run: |
+          echo "# DevSync Daily Status - $(date)" > status.md
+          echo "Automated update completed at $(date -u)." >> status.md
+
+      - name: Commit daily update
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: 'chore: daily DevSync update [{{ date }}]'
+          file_pattern: status.md
